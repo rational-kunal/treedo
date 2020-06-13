@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    treedo - create label
+{% endblock %}
+
+{% block main %}
+    <form action='{% url 'create_label' %}' method='POST'>
+        {% csrf_token %}
+        <p class="is-size-2">create label</p>
+        {% for field in form %}
+            <div class="field">
+                <label class="label">
+                    {{ field.label }}
+                </label>
+                <div class="control">
+                    {{ field.as_widget }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="field">
+            <button type="submit" class="button is-primary">create</button>
+        </div>
+    </form>
+{% endblock %}

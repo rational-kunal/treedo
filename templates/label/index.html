@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    treedo - label index
+{% endblock %}
+
+{% block main %}
+    <div>
+
+        {% for label in labels %}
+            <a href="{% url 'label_detail' label.pk %}">
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <p class="card-header-title"> {{ label.title }} </p>
+                    </header>
+                </div>
+            </a>
+        {% endfor %}
+
+        <div class="mb-4">
+            <a class="button is-primary is-outlined is-fullwidth" href="{% url 'create_label' %}">create label</a>
+        </div>
+
+    </div>
+{% endblock %}

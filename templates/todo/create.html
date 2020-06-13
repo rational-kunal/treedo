@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    treedo - create todo
+{% endblock %}
+
+{% block main %}
+
+    {{ parent_label.title }}
+
+    {{ parent_todo.task }}
+
+    <form method='POST'>
+        {% csrf_token %}
+        <p class="is-size-1">create todo</p>
+        {% for field in form %}
+            <div class="field">
+                <label class="label">
+                    {{ field.label }}
+                </label>
+                <div class="control">
+                    {{ field.as_widget }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="field">
+            <button type="submit" class="button is-primary">create</button>
+        </div>
+    </form>
+{% endblock %}
