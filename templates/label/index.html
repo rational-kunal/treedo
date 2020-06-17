@@ -7,18 +7,22 @@
 {% block main %}
     <div>
 
+        <h1> Your labels </h1>
+        <p>Labels are root for todo, top level todo can be created underneath label</p>
+
         {% for label in labels %}
-            <a href="{% url 'label_detail' label.pk %}">
-                <div class="card mb-4">
-                    <header class="card-header">
-                        <p class="card-header-title"> {{ label.title }} </p>
-                    </header>
+            <a class="uk-link-reset" href="{% url 'label_detail' label.pk %}">
+                <div class="uk-margin-top">
+                    <div class="uk-card uk-card-primary uk-card-hover uk-card-body uk-light uk-card-small">
+                        <h3 class="uk-card-title">{{ label.title }}</h3>
+                        <p>{{ label.description }}</p>
+                    </div>
                 </div>
             </a>
         {% endfor %}
 
-        <div class="mb-4">
-            <a class="button is-primary is-outlined is-fullwidth" href="{% url 'create_label' %}">create label</a>
+        <div class="uk-margin">
+            <a class="uk-button uk-button-secondary uk-width-1-1" href="{% url 'create_label' %}">create a new label</a>
         </div>
 
     </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, get_list_or_404, get_object_or_404, redirect
 from .forms import LabelForm, TodoForm
 from .models import Label, Todo
+from .tree import TodoTree
 
 
 def label_index(request):
@@ -13,7 +14,8 @@ def create_label(request):
     if request.method == 'POST':
         form = LabelForm(request.POST)
         if form.is_valid():
-            label = Label(title=form.cleaned_data['title'])
+            label = Label(title=form.cleaned_data['title'],
+                          description=form.cleaned_data['description'])
             label.save()
             return redirect('label_index')
     else:
@@ -24,8 +26,9 @@ def create_label(request):
 
 def label_detail(request, label_id):
     label = get_object_or_404(Label, pk=label_id)
+    todo_tree = TodoTree(label)
     todo_list = Todo.objects.filter(parent_label=label)
-    context = {'label': label, 'todo_list': todo_list}
+    context = {'label': label, 'todo_list': todo_list, 'todo_tree': todo_tree}
     return render(request, template_name='label/detail.html', context=context)
 
 
@@ -46,7 +49,7 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
                 todo.parent_label = parent_label
             todo.save()
 
-            return redirect('label_detail', parent_label_id)
+            return redirect('label_detail', todo.root_label.pk)
     else:
         form = TodoForm()
 
@@ -59,7 +62,8 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
     return render(request, template_name='todo/create.html', context=context)
 
 
-def todo_detail(request, todo_id):
+def todo_toggle_completion(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
-    context = {'todo': todo}
-    return render(request, template_name='todo/detail.html', context=context)
+    todo.is_complete = False if todo.is_complete else True
+    todo.save()
+    return redirect('label_detail', todo.root_label.pk)

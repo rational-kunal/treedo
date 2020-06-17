@@ -7,19 +7,21 @@
 {% block main %}
     <form action='{% url 'create_label' %}' method='POST'>
         {% csrf_token %}
-        <p class="is-size-2">create label</p>
-        {% for field in form %}
-            <div class="field">
-                <label class="label">
-                    {{ field.label }}
-                </label>
-                <div class="control">
+
+        <fieldset class="uk-fieldset">
+
+            <legend class="uk-legend">Create a new label</legend>
+
+            {% for field in form %}
+                <div class="uk-margin">
                     {{ field.as_widget }}
                 </div>
+            {% endfor %}
+
+            <div class="uk-margin">
+                <button type="submit" class="uk-button uk-button-primary">create</button>
             </div>
-        {% endfor %}
-        <div class="field">
-            <button type="submit" class="button is-primary">create</button>
-        </div>
+
+        </fieldset>
     </form>
 {% endblock %}

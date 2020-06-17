@@ -3,6 +3,7 @@ from django.db import models
 
 class Label(models.Model):
     title = models.CharField(max_length=128)
+    description = models.CharField(max_length=256, blank=True, null=True)
 
     def __repr__(self):
         return self.title
@@ -16,7 +17,7 @@ class Todo(models.Model):
 
     @property
     def is_root(self):
-        return self.parent is None
+        return self.parent_todo is None
 
     @property
     def can_complete(self):
@@ -24,6 +25,15 @@ class Todo(models.Model):
             if not task.is_complete:
                 return False
         return True
+
+    @property
+    def root_label(self):
+        node = self.parent_todo
+        label = self.parent_label
+        while node is not None:
+            label = node.parent_label
+            node = node.parent_todo
+        return label
 
     def __repr__(self):
         return self.task + (' Y' if self.is_complete else ' N')

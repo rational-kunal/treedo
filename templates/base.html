@@ -4,13 +4,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} treedo {% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/css/uikit.min.css"/>
+
+    <style>
+        .todo-tile-1 {
+            background-color: rgba(114, 106, 149, 0.1)!important;
+            color: #07031a!important;
+        }
+        .create {
+            background-color: #f2aaaa;
+        }
+        .negative {
+            background-color: #ea907a;
+        }
+        .positive {
+            background-color: #fbc687;
+        }
+    </style>
 </head>
 <body>
-<section class="section">
-    <div class="container">
-        {% block main %} {% endblock %}
+
+{% include 'navbar.html' %}
+
+<div class="uk-container">
+    <div class="uk-section uk-margin-top uk-margin-bottom uk-background-muted">
+        <div class="uk-container uk-container-small">
+            <div class="uk-margin-small-left uk-margin-small-right">
+                {% block main %} {% endblock %}
+            </div>
+        </div>
     </div>
-</section>
+</div>
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/js/uikit-icons.min.js"></script>
 </body>
 </html>
