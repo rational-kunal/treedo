@@ -9,7 +9,7 @@ class TodoTree(object):
 
     def __repr__(self):
         return '''
-            <div class="uk-tile uk-padding-small uk-margin todo-tile-1">
+            <div class="uk-tile uk-padding-remove uk-margin">
                 <div>
                     <a href="{}" class="uk-button uk-button-primary uk-button-small create"> create a todo </a>
                 </div>
@@ -33,16 +33,19 @@ class TodoSubTree(object):
             control_button_link, control_button_class, control_button_text
         ) if self.todo.can_complete else ""
 
+        completed_icon = '(<span uk-icon="check"></span>)' if self.todo.is_complete else ''
+
         return '''
-            <div class="uk-tile uk-padding-small uk-margin todo-tile-1">
-                <span class="uk-h4"> {} </span>
+            <div class="uk-tile uk-padding-small uk-margin todo-tile">
+                <span class="uk-h4"> {} {} </span>
                 <div>
                     <a href="{}" class="uk-button uk-button-primary uk-button-small create"> create a todo </a>
                     {}
                 </div>
                 {}
             </div>
-        '''.format(self.todo.task,
+        '''.format(completed_icon,
+                   self.todo.task,
                    reverse('create_todo_by_todo', args=[self.todo.pk]),
                    control_button,
                    ''.join([str(todo) for todo in self.children]))
