@@ -3,24 +3,22 @@
         <div class="uk-navbar-left">
 
             <ul class="uk-navbar-nav">
-
                 <li class="uk-active">
-                    <a href="#"> <span uk-icon="icon: git-branch" class="uk-margin-xsmall-right"></span> treedo</a>
+                    <a href="{% url 'homepage' %}"> <span uk-icon="icon: git-branch" class="uk-margin-xsmall-right"></span> treedo</a>
                 </li>
-
-                {#            <li><a href="#">Item</a></li>#}
-
             </ul>
 
         </div>
 
             <div class="uk-navbar-right">
-
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">Active</a></li>
-                    <li><a href="#">Item</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">logout {{ user.username }}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'sign_up' %}">sign up</a></li>
+                        <li><a href="{% url 'login' %}">login</a></li>
+                    {% endif %}
                 </ul>
-
             </div>
 
     </nav>

@@ -1,9 +1,11 @@
 from django.db import models
+from accounts.models import User
 
 
 class Label(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=256, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __repr__(self):
         return self.title
@@ -21,7 +23,7 @@ class Todo(models.Model):
 
     @property
     def can_complete(self):
-        for task in list(self.todo_set):
+        for task in self.todo_set.iterator():
             if not task.is_complete:
                 return False
         return True

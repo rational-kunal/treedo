@@ -1,21 +1,31 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, get_list_or_404, get_object_or_404, redirect
 from .forms import LabelForm, TodoForm
 from .models import Label, Todo
 from .tree import TodoTree
 
 
+def homepage(request):
+    if request.user.is_authenticated:
+        return redirect('label_index')
+    return render(request, template_name='homepage.html')
+
+
+@login_required
 def label_index(request):
-    labels = get_list_or_404(Label)
+    labels = Label.objects.filter(created_by=request.user)
     context = {'labels': labels}
     return render(request, template_name='label/index.html', context=context)
 
 
+@login_required
 def create_label(request):
     if request.method == 'POST':
         form = LabelForm(request.POST)
         if form.is_valid():
             label = Label(title=form.cleaned_data['title'],
-                          description=form.cleaned_data['description'])
+                          description=form.cleaned_data['description'],
+                          created_by=request.user)
             label.save()
             return redirect('label_index')
     else:
@@ -24,6 +34,7 @@ def create_label(request):
     return render(request, template_name='label/create.html', context=context)
 
 
+@login_required
 def label_detail(request, label_id):
     label = get_object_or_404(Label, pk=label_id)
     todo_tree = TodoTree(label)
@@ -32,6 +43,7 @@ def label_detail(request, label_id):
     return render(request, template_name='label/detail.html', context=context)
 
 
+@login_required
 def create_todo(request, parent_todo_id=None, parent_label_id=None):
     parent_label = parent_todo = None
     if parent_todo_id:
@@ -62,6 +74,7 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
     return render(request, template_name='todo/create.html', context=context)
 
 
+@login_required
 def todo_toggle_completion(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
     todo.is_complete = False if todo.is_complete else True
