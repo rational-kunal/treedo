@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lxz2)ips0lnc0rp9@r8r$l1+*o3w)t-+7xx^+a8!-#%ol$rmpa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['treedo-rational-labs.herokuapp.com', '127.0.0.1']
 
