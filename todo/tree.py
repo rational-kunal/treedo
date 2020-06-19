@@ -33,6 +33,11 @@ class TodoSubTree(object):
             control_button_link, control_button_class, control_button_text
         ) if self.todo.can_complete else ""
 
+        delete_button_link = reverse('delete_todo', args=[self.todo.pk])
+        delete_button = '<a href="{}" class="uk-button uk-button-secondary delete uk-button-small"> delete </a>'.format(
+            delete_button_link
+        )
+
         completed_icon = '(<span uk-icon="check"></span>)' if self.todo.is_complete else ''
 
         return '''
@@ -41,6 +46,7 @@ class TodoSubTree(object):
                 <div>
                     <a href="{}" class="uk-button uk-button-primary uk-button-small create"> create a todo </a>
                     {}
+                    {}
                 </div>
                 {}
             </div>
@@ -48,6 +54,7 @@ class TodoSubTree(object):
                    self.todo.task,
                    reverse('create_todo_by_todo', args=[self.todo.pk]),
                    control_button,
+                   delete_button,
                    ''.join([str(todo) for todo in self.children]))
 
     def __repr__(self):

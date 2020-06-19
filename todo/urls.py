@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('todo/createbylabel/<int:parent_label_id>', views.create_todo, name='create_todo_by_label'),
     path('todo/createbytodo/<int:parent_todo_id>', views.create_todo, name='create_todo_by_todo'),
+    path('todo/delete/<int:todo_id>', views.delete_todo, name='delete_todo'),
     path('todo/toggle/<int:todo_id>', views.todo_toggle_completion, name='todo_toggle_completion'),
 
     path('', views.homepage, name='homepage')

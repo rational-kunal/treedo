@@ -75,6 +75,14 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
 
 
 @login_required
+def delete_todo(request, todo_id):
+    todo = get_object_or_404(Todo, pk=todo_id)
+    root_label = todo.root_label
+    todo.delete()
+    return redirect('label_detail', root_label.id)
+
+
+@login_required
 def todo_toggle_completion(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
     todo.is_complete = False if todo.is_complete else True
