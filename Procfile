@@ -1,0 +1,1 @@
+web: gunicorn treedo.wsgi --log-file -
