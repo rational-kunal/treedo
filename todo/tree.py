@@ -44,9 +44,11 @@ class TodoSubTree(object):
             <div class="uk-tile uk-padding-small uk-margin todo-tile">
                 <span class="uk-h4"> {} {} </span>
                 <div>
+                <div class="uk-button-group">
                     <a href="{}" class="uk-button uk-button-primary uk-button-small create"> create a todo </a>
                     {}
                     {}
+                </div>
                 </div>
                 {}
             </div>
