@@ -37,6 +37,9 @@ def create_label(request):
 @login_required
 def label_detail(request, label_id):
     label = get_object_or_404(Label, pk=label_id)
+    if label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
     todo_tree = TodoTree(label)
     todo_list = Todo.objects.filter(parent_label=label)
     context = {'label': label, 'todo_list': todo_list, 'todo_tree': todo_tree}
@@ -48,8 +51,12 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
     parent_label = parent_todo = None
     if parent_todo_id:
         parent_todo = get_object_or_404(Todo, pk=parent_todo_id)
+        if parent_todo.root_label.created_by.pk is not request.user.pk:
+            return render(request, template_name='notauthorised.html')
     if parent_label_id:
         parent_label = get_object_or_404(Label, pk=parent_label_id)
+        if parent_label.created_by.pk is not request.user.pk:
+            return render(request, template_name='notauthorised.html')
 
     if request.method == 'POST':
         form = TodoForm(request.POST)
@@ -78,6 +85,8 @@ def create_todo(request, parent_todo_id=None, parent_label_id=None):
 def delete_todo(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
     root_label = todo.root_label
+    if root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
     todo.delete()
     return redirect('label_detail', root_label.id)
 
@@ -85,6 +94,8 @@ def delete_todo(request, todo_id):
 @login_required
 def todo_toggle_completion(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
+    if todo.root_label.created_by.pk == request.user.pk:
+        return render(request, template_name='notauthorised.html')
     todo.is_complete = False if todo.is_complete else True
     todo.save()
     return redirect('label_detail', todo.root_label.pk)
