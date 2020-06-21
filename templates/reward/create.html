@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    treedo - create reward
+{% endblock %}
+
+{% block main %}
+
+    <form method='POST'>
+        {% csrf_token %}
+
+        <fieldset class="uk-fieldset">
+
+            <legend class="uk-legend">Create a reward for {{ todo.task }}</legend>
+
+            {% for field in form %}
+                <div class="uk-margin">
+                    {{ field.as_widget }}
+                </div>
+            {% endfor %}
+
+            <div class="uk-margin">
+                <button type="submit" class="uk-button uk-button-primary">create</button>
+            </div>
+
+        </fieldset>
+    </form>
+{% endblock %}

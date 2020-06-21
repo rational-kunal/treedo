@@ -43,3 +43,14 @@ class Todo(models.Model):
 
     def __repr__(self):
         return self.task + (' Y' if self.is_complete else ' N')
+
+
+class Reward(models.Model):
+    description = models.CharField(max_length=128)
+    associated_with = models.ForeignKey(to=Todo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.description
+
+    def __repr__(self):
+        return self.__str__()

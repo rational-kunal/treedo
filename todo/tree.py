@@ -40,6 +40,11 @@ class TodoSubTree(object):
 
         completed_icon = '(<span uk-icon="check"></span>)' if self.todo.is_complete else ''
 
+        create_reward_button_link = reverse('create_reward', args=[self.todo.pk])
+        create_reward_button = '<a href="{}" class="uk-button uk-button-small uk-button-primary"> create reward </a>'.format(
+            create_reward_button_link
+        )
+
         return '''
             <div class="uk-tile uk-padding-small uk-margin todo-tile">
                 <span class="uk-h4"> {} {} </span>
@@ -48,8 +53,14 @@ class TodoSubTree(object):
                     <a href="{}" class="uk-button uk-button-primary uk-button-small create"> create a todo </a>
                     {}
                     {}
+                    {}
                 </div>
                 </div>
+
+                <div>
+                    {}
+                </div>
+                
                 {}
             </div>
         '''.format(completed_icon,
@@ -57,7 +68,13 @@ class TodoSubTree(object):
                    reverse('create_todo_by_todo', args=[self.todo.pk]),
                    control_button,
                    delete_button,
+                   create_reward_button,
+                   ''.join([reward_tile(reward) for reward in self.todo.reward_set.iterator()]),
                    ''.join([str(todo) for todo in self.children]))
 
     def __repr__(self):
         return self.__str__
+
+
+def reward_tile(reward):
+    return '<div class="uk-tile uk-padding-small uk-margin-small-top reward-tile">{}</div>'.format(reward)
