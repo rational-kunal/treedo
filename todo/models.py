@@ -48,6 +48,11 @@ class Todo(models.Model):
 class Reward(models.Model):
     description = models.CharField(max_length=128)
     associated_with = models.ForeignKey(to=Todo, on_delete=models.CASCADE)
+    is_claimed = models.BooleanField(default=False)
+
+    @property
+    def can_claim(self):
+        return self.associated_with.is_complete
 
     def __str__(self):
         return self.description

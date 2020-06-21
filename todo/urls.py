@@ -12,6 +12,8 @@ urlpatterns = [
     path('todo/toggle/<int:todo_id>', views.todo_toggle_completion, name='todo_toggle_completion'),
 
     path('reward/<int:todo_id>', views.create_reward, name='create_reward'),
+    path('reward/delete/<int:reward_id>', views.delete_reward, name='delete_reward'),
+    path('reward/toggle/<int:reward_id>', views.reward_toggle_claim, name='reward_toggle_claim'),
 
     path('', views.homepage, name='homepage')
 ]

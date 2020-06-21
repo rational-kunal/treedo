@@ -77,4 +77,23 @@ class TodoSubTree(object):
 
 
 def reward_tile(reward):
-    return '<div class="uk-tile uk-padding-small uk-margin-small-top reward-tile">{}</div>'.format(reward)
+    delete_button = '<a href="{}" class="uk-button uk-button-secondary delete uk-button-small" uk-icon="icon: trash"></a>'.format(
+        reverse('delete_reward', args=[reward.pk])
+    )
+
+    claim_button_link = reverse('reward_toggle_claim', args=[reward.pk])
+    claim_button_class = 'positive' if not reward.is_claimed else 'negative'
+    claim_button_icon = 'close' if reward.is_claimed else 'check'
+    claim_button = '<a href="{}" class="uk-button uk-button-secondary delete uk-button-small {}" uk-icon="icon: {}"> </a>'.format(
+        claim_button_link, claim_button_class, claim_button_icon
+    )
+
+    claim_button_should_show = reward.can_claim or reward.is_claimed
+
+    control_button_group = '<div class="uk-button-group uk-align-right">{} {}</div>'.format(
+        claim_button if claim_button_should_show else "", delete_button
+    )
+
+    return '<div class="uk-tile uk-padding-small uk-margin-small-top reward-tile">{}{}</div>'.format(
+        reward.description, control_button_group
+    )

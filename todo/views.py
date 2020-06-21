@@ -118,3 +118,26 @@ def create_reward(request, todo_id):
         form = RewardForm()
     context = {'form': form, 'todo': todo}
     return render(request, template_name='reward/create.html', context=context)
+
+
+@login_required
+def delete_reward(request, reward_id):
+    reward = get_object_or_404(Reward, pk=reward_id)
+    todo = reward.associated_with
+    if todo.root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
+    reward.delete()
+    return redirect('label_detail', todo.root_label.pk)
+
+
+@login_required
+def reward_toggle_claim(request, reward_id):
+    reward = get_object_or_404(Reward, pk=reward_id)
+    todo = reward.associated_with
+    if todo.root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
+    reward.is_claimed = False if reward.is_claimed else True
+    reward.save()
+    return redirect('label_detail', todo.root_label.pk)
