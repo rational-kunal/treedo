@@ -16,6 +16,8 @@ class Todo(models.Model):
     is_complete = models.BooleanField(default=False)
     parent_todo = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     parent_label = models.ForeignKey(to=Label, on_delete=models.CASCADE, blank=True, null=True)
+    _root_label = models.ForeignKey(to=Label, on_delete=models.CASCADE, blank=True, null=True,
+                                    related_name='root_label')
 
     @property
     def is_root(self):
@@ -30,6 +32,8 @@ class Todo(models.Model):
 
     @property
     def root_label(self):
+        if self._root_label is not None:
+            return self._root_label
         node = self.parent_todo
         label = self.parent_label
         while node is not None:

@@ -94,7 +94,7 @@ def delete_todo(request, todo_id):
 @login_required
 def todo_toggle_completion(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
-    if todo.root_label.created_by.pk == request.user.pk:
+    if todo.root_label.created_by.pk is not request.user.pk:
         return render(request, template_name='notauthorised.html')
     todo.is_complete = False if todo.is_complete else True
     todo.save()
