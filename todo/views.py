@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, get_list_or_404, get_object_or_404, redirect
-from .forms import LabelForm, TodoForm
-from .models import Label, Todo
+from .forms import LabelForm, TodoForm, RewardForm
+from .models import Label, Todo, Reward
 from .tree import TodoTree
 
 
@@ -98,4 +98,46 @@ def todo_toggle_completion(request, todo_id):
         return render(request, template_name='notauthorised.html')
     todo.is_complete = False if todo.is_complete else True
     todo.save()
+    return redirect('label_detail', todo.root_label.pk)
+
+
+@login_required
+def create_reward(request, todo_id):
+    todo = get_object_or_404(Todo, pk=todo_id)
+    if todo.root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
+    if request.method == 'POST':
+        form = RewardForm(request.POST)
+        if form.is_valid():
+            reward = Reward(description=form.cleaned_data['description'])
+            reward.associated_with = todo
+            reward.save()
+            return redirect('label_detail', todo.root_label.pk)
+    else:
+        form = RewardForm()
+    context = {'form': form, 'todo': todo}
+    return render(request, template_name='reward/create.html', context=context)
+
+
+@login_required
+def delete_reward(request, reward_id):
+    reward = get_object_or_404(Reward, pk=reward_id)
+    todo = reward.associated_with
+    if todo.root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
+    reward.delete()
+    return redirect('label_detail', todo.root_label.pk)
+
+
+@login_required
+def reward_toggle_claim(request, reward_id):
+    reward = get_object_or_404(Reward, pk=reward_id)
+    todo = reward.associated_with
+    if todo.root_label.created_by.pk is not request.user.pk:
+        return render(request, template_name='notauthorised.html')
+
+    reward.is_claimed = False if reward.is_claimed else True
+    reward.save()
     return redirect('label_detail', todo.root_label.pk)

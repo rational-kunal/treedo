@@ -20,3 +20,10 @@ class TodoForm(forms.Form):
     task = forms.CharField(max_length=256,
                            label='task to do',
                            widget=generic_widget(what=forms.TextInput, placeholder='task to do'))
+
+
+class RewardForm(forms.Form):
+    description = forms.CharField(max_length=128,
+                                  label='description',
+                                  widget=generic_widget(forms.TextInput,
+                                                        placeholder='what do you want when this todo is completed'))
