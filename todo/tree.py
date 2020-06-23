@@ -75,10 +75,10 @@ class TodoSubTree(object):
         button_group = UIKit.button_group([add_button, control_button, delete_button, create_reward_button])
 
         return '''
-            <div class="uk-tile uk-padding-small uk-margin todo-tile">
+            <div class="uk-tile uk-padding-small uk-margin {}">
                 <div>
-                <span class="uk-h4"> {} {} </span>
-                <div class="uk-align-right"> {} </div>
+                <span> {} {} </span>
+                <div class="uk-align-right margin-bottom-remove"> {} </div>
                 </div>
 
                 <div>
@@ -87,7 +87,8 @@ class TodoSubTree(object):
                 
                 {}
             </div>
-        '''.format(completed_icon,
+        '''.format('todo-complete-tile' if self.todo.is_complete else 'todo-tile',
+                   completed_icon,
                    self.todo.task,
                    button_group,
                    ''.join([reward_tile(reward) for reward in self.todo.reward_set.iterator()]),
