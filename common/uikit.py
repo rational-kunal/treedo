@@ -29,6 +29,7 @@ class UIKit(object):
                             {}
                         </ul>
                     </div>
+                    </div>
                 '''.format(parent_text,
                            ' '.join(map(lambda x: '<li><a href="{}">{}</a></li>'.format(x['link'], x['text']),
                                         drop_down_links)))
