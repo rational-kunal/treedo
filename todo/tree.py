@@ -48,8 +48,6 @@ class TodoSubTree(object):
                                                text=UIKit.TRASH_ICON,
                                                css_class_list=['delete'])
 
-        completed_icon = '(<span uk-icon="check"></span>)' if self.todo.is_complete else ''
-
         create_reward_button_link = reverse('create_reward', args=[self.todo.pk])
         create_reward_button = UIKit.link_black_hover(href=create_reward_button_link,
                                                       text=UIKit.STAR_ICON,
@@ -65,7 +63,7 @@ class TodoSubTree(object):
         return '''
             <div class="uk-tile uk-padding-small uk-margin {}">
                 <div>
-                <span> {} {} </span>
+                <span> {} </span>
                 <div class="uk-align-right margin-bottom-remove uk-visible@s"> {} </div>
                 <div class="uk-align-right margin-bottom-remove uk-hidden@s"> {} </div>
                 </div>
@@ -77,7 +75,6 @@ class TodoSubTree(object):
                 {}
             </div>
         '''.format('todo-complete-tile' if self.todo.is_complete else 'todo-tile',
-                   completed_icon,
                    self.todo.task,
                    button_group,
                    button_group_on_small,

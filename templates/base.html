@@ -12,52 +12,72 @@
 
     <style>
         .brand-name {
-            font-family: 'Press Start 2P', cursive!important;
-            font-size: 32px!important;
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 32px !important;
         }
+
         .fontastic {
-            font-family: 'Alata', sans-serif!important;
+            font-family: 'Alata', sans-serif !important;
         }
+
         .margin-bottom-remove {
-            margin-bottom: 0!important;
+            margin-bottom: 0 !important;
         }
+
         .uk-tile {
             width: 100%;
             font-family: 'Alata', sans-serif;
         }
+
         .todo-tile {
-            background-color: rgba(114, 106, 149, 0.05)!important;
-            color: #07031a!important;
-            border-left: 4px solid rgba(0,0,0,0);
+            overflow-x: auto;
+            background-color: rgba(114, 106, 149, 0.05) !important;
+            color: #07031a !important;
+            border-left: 4px solid rgba(0, 0, 0, 0);
             transition: all 0.2s ease-in;
         }
+
         .todo-tile:hover {
             border-left: 4px solid #01a9b4;
         }
+
         .reward-tile {
-            background-color: #f4ebc1!important;
-            color: #07031a!important;
+            background-color: #f4ebc1 !important;
+            color: #07031a !important;
         }
+
         .todo-complete-tile {
-            background-color: rgba(114, 106, 149, 0.05)!important;
-            color: #07031a!important;
+            background-color: rgba(114, 106, 149, 0.05) !important;
+            color: #07031a !important;
             border-left: 4px dashed #ffcb74;
             transition: all 0.2s ease-in;
         }
+
         .todo-complete-tile:hover {
             border-left: 4px solid #ffcb74;
         }
+
         .create {
             background-color: #f2aaaa;
         }
+
         .delete {
-            background-color: #e7305b;!important;
+            background-color: #e7305b;
+        !important;
         }
+
         .negative {
             background-color: #ea907a;
         }
+
         .positive {
             background-color: #fbc687;
+        }
+
+        @media screen and (max-width: 600px) {
+            .uk-padding-small {
+                padding: 7px!important;
+            }
         }
     </style>
 </head>
@@ -80,9 +100,9 @@
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/js/uikit-icons.min.js"></script>
 
 {% block ga %}
-  {% if use_ga %}
-    {% include "ga.html" %}
-  {% endif %}
+    {% if use_ga %}
+        {% include "ga.html" %}
+    {% endif %}
 {% endblock ga %}
 
 </body>

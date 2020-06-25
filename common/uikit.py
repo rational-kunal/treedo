@@ -23,7 +23,7 @@ class UIKit(object):
     def drop_down(parent_text, drop_down_links):
         return '''
                     <a href="#" class="uk-button uk-button-secondary uk-button-small"> {} </a>
-                    <div uk-dropdown="mode: click">
+                    <div uk-dropdown="pos: top-right">
                     <div>
                         <ul class="uk-nav uk-dropdown-nav">
                             {}
